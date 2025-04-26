@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Home</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg,  #eb9474, #2b48ca);
+      text-align: center;
+      padding: 20px;
+    }
+    h2 {
+      color: #4d4a4a;
+    }
+    p {
+      font-size: 16px;
+      color: #5b5959;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 10px;
+      background: linear-gradient(135deg,  #eb9474, #2b48ca);
+      color: white;
+      border: none;
+      border-radius: 90px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .quiz-container {
+      background-color: #ddc8c8;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Welcome to the Quiz Application</h2>
+  <p>Hello, <span id="userName"></span>! Pick a quiz below to challenge your knowledge.</p>
+
+  <div class="quiz-container">
+    <h3>Available Quizzes:</h3>
+    <p>Select a quiz:</p>
+
+    <div id="quizList"></div>
+  </div>
+
+  <script>
+    const quizzes = [
+      {
+        title: "Wacky Biology",
+        questions: [
+          { q: "What's the only mammal capable of true flight?", options: ["Flying Squirrel", "Bat", "Sugar Glider"], answer: 1 },
+          { q: "How many hearts does an octopus have?", options: ["One", "Two", "Three"], answer: 2 },
+          { q: "What part of a plant is the most delicious part to eat(according to pandas)?", options: ["Bamboo stem", "Bamboo leaf", "Bamboo root"], answer: 0 }
+        ]
+      },
+      {
+        title: "Casual Coding",
+        questions: [
+          { q: "What does 'HTML' stand for?", options: ["Hyper Trainer Markup Language", "HyperText Markup Language", "How To Make Lasagna"], answer: 1 },
+          { q: "What will this Python code output: print(3*\"Hi\")", options: ["hi hi hi", "3hi", "Error"], answer: 0 },
+          { q: "Which of these is not a programming language?", options: ["Python", "Java", "DragonSpeak"], answer: 2 }
+        ]
+      },
+      {
+        title: "Mythology Mayhem",
+        questions: [
+          { q: "In Greek mythology, who turned everything they touched into gold?", options: ["Midas", "Hermes", "Dionysus"], answer: 0 },
+          { q: "Which Norse god wields a hammer called Mjolnir?", options: ["Odin", "Thor", "Loki"], answer: 1 },
+          { q: "In Eqyptain mythology, which god has the head of a jackal and guards the dead?", options: ["Horus", "Ra", "Anubis"], answer: 2 }
+        ]
+      }
+    ];
+
+    const quizList = document.getElementById('quizList');
+
+    quizzes.forEach((quiz, i) => {
+      const quizContainer = document.createElement('div');
+      quizContainer.style.marginBottom = '20px';
+
+      const title = document.createElement('h4');
+      title.innerText = quiz.title;
+
+      const btn = document.createElement('button');
+      btn.innerText = "Start Quiz";
+      btn.onclick = () => {
+        
+        localStorage.setItem('quizTitle', quiz.title);
+
+        quiz.questions.forEach((q, index) => {
+          localStorage.setItem('q' + index, q.q);
+          localStorage.setItem('q' + index + 'opt0', q.options[0]);
+          localStorage.setItem('q' + index + 'opt1', q.options[1]);
+          localStorage.setItem('q' + index + 'opt2', q.options[2]);
+          localStorage.setItem('q' + index + 'ans', q.answer);
+        });
+
+        localStorage.setItem('totalQuestions', quiz.questions.length);
+        location.href = 'quiz.html';
+      };
+
+      quizContainer.appendChild(title);
+      quizContainer.appendChild(btn);
+      quizList.appendChild(quizContainer);
+    });
+
+    const userName = localStorage.getItem("currentUser");
+    if (userName) {
+      document.getElementById('userName').innerText = userName;
+    } else {
+      document.getElementById('userName').innerText = "Guest";
+    }
+  </script>
+
+</body>
+</html>
